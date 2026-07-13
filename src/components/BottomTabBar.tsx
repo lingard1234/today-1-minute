@@ -57,7 +57,7 @@ export function BottomTabBar({ active, onChange }: BottomTabBarProps) {
       </button>
       <button
         onClick={() => onChange("mypage")}
-        aria-label="마이페이지"
+        aria-label="스크랩"
         style={{
           flex: 1,
           display: "flex",
@@ -80,7 +80,7 @@ export function BottomTabBar({ active, onChange }: BottomTabBarProps) {
           fontWeight={active === "mypage" ? "bold" : "medium"}
           color={active === "mypage" ? theme.accent : theme.textTertiary}
         >
-          마이페이지
+          스크랩
         </Text>
       </button>
     </nav>

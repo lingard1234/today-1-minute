@@ -20,7 +20,7 @@ export function MyPage({ savedIds, onToggleSave, onSelectCard }: MyPageProps) {
     .sort((a, b) => b.date.localeCompare(a.date));
 
   return (
-    <div style={{ backgroundColor: theme.bg, minHeight: "100dvh" }}>
+    <div style={{ backgroundColor: theme.bg, minHeight: "100dvh", position: "relative" }}>
       <header
         style={{
           position: "sticky",
@@ -34,23 +34,21 @@ export function MyPage({ savedIds, onToggleSave, onSelectCard }: MyPageProps) {
         }}
       >
         <Text typography="t5" fontWeight="bold" color={theme.textPrimary}>
-          마이페이지
+          스크랩
         </Text>
       </header>
-
-      <div style={{ padding: "16px 20px 0" }}>
-        <Text typography="st9" color={theme.textSecondary}>
-          저장한 카드 {savedCards.length}개
-        </Text>
-      </div>
 
       {savedCards.length === 0 ? (
         <div
           style={{
-            padding: "60px 20px",
+            position: "absolute",
+            inset: 0,
+            top: 52,
+            bottom: 64,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
+            justifyContent: "center",
             gap: 8,
           }}
         >
@@ -58,7 +56,7 @@ export function MyPage({ savedIds, onToggleSave, onSelectCard }: MyPageProps) {
           <Text typography="t5" fontWeight="bold" color={theme.textSecondary}>
             아직 저장한 카드가 없어요
           </Text>
-          <Text typography="st9" color={theme.textTertiary}>
+          <Text typography="st9" color={theme.textTertiary} style={{ textAlign: "center", padding: "0 32px" }}>
             관심 있는 카드를 저장하고 나중에 다시 확인해보세요.
           </Text>
         </div>
