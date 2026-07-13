@@ -20,29 +20,29 @@ export function MyPage({ savedIds, onToggleSave, onSelectCard }: MyPageProps) {
     .sort((a, b) => b.date.localeCompare(a.date));
 
   return (
-    <div style={{ backgroundColor: theme.bg }}>
+    <div style={{ backgroundColor: theme.bg, minHeight: "100dvh" }}>
       <header
         style={{
           position: "sticky",
           top: 0,
-          zIndex: 10,
+          zIndex: 20,
           display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          height: 68,
+          alignItems: "center",
+          height: 52,
           padding: "0 20px",
-          backgroundColor: theme.surface,
-          borderBottom: `1px solid ${theme.border}`,
-          gap: 2,
+          backgroundColor: theme.bg,
         }}
       >
-        <Text typography="t3" fontWeight="bold" color={theme.textPrimary}>
+        <Text typography="t5" fontWeight="bold" color={theme.textPrimary}>
           마이페이지
         </Text>
-        <Text typography="st11" color={theme.textSecondary}>
+      </header>
+
+      <div style={{ padding: "16px 20px 0" }}>
+        <Text typography="st9" color={theme.textSecondary}>
           저장한 카드 {savedCards.length}개
         </Text>
-      </header>
+      </div>
 
       {savedCards.length === 0 ? (
         <div
