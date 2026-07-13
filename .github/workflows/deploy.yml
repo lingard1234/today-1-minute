@@ -1,0 +1,32 @@
+name: 앱인토스 자동 배포
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/**'
+      - 'public/**'
+      - 'package.json'
+      - 'granite.config.ts'
+      - 'index.html'
+
+jobs:
+  deploy:
+    name: Build & Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: 의존성 설치
+        run: npm ci
+
+      - name: 앱 빌드
+        run: npm run build
+
+      - name: 앱인토스 배포
+        run: npx ait deploy --api-key "${{ secrets.AIT_API_KEY }}" -m "자동 배포 — ${{ github.event.head_commit.message }}"

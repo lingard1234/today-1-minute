@@ -1,0 +1,6 @@
+
+.granite
+node_modules
+dist
+.env
+content/drafts

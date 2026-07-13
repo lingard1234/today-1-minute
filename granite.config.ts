@@ -1,0 +1,20 @@
+import { defineConfig } from "@apps-in-toss/web-framework/config";
+
+export default defineConfig({
+  appName: "today-1-minute",
+  brand: {
+    displayName: "하루 1분", // 화면에 노출될 앱의 한글 이름으로 바꿔주세요.
+    primaryColor: "#FD9B3C", // 화면에 노출될 앱의 기본 색상으로 바꿔주세요.
+    icon: "https://static.toss.im/appsintoss/47057/73a4786d-bc38-43ea-bf16-fc934a509d5c.png", // 화면에 노출될 앱의 아이콘 이미지 주소로 바꿔주세요.
+  },
+  web: {
+    host: "localhost",
+    port: 5173,
+    commands: {
+      dev: "vite dev",
+      build: "vite build",
+    },
+  },
+  permissions: [],
+  outdir: "dist",
+});

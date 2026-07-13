@@ -1,0 +1,30 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(grep -n \"@name Text$\\\\|@name ListRow$\\\\|@name Asset$\\\\|@name Border$\\\\|@name Tabbar$\\\\|@name Tab$\\\\|@name ListHeader$\" node_modules/@toss/tds-mobile/dist/esm/index.d.ts)",
+      "Bash(sort -t: -k2)",
+      "Bash(uniq -f1)",
+      "Skill(claude-api)",
+      "Skill(claude-api:*)",
+      "Bash(grep -n \"@name Top$\" node_modules/@toss/tds-mobile/dist/esm/index.d.ts)",
+      "Bash(npm install:*)",
+      "Bash(npx tsc:*)",
+      "mcp__Claude_Preview__preview_start",
+      "Read(//Users/lingard/.nvm/versions/node/**)",
+      "Read(//usr/local/bin/**)",
+      "Bash(echo $PATH)",
+      "Bash(find / -maxdepth 4 -iname node -type f)",
+      "Bash(export PATH=\"$HOME/.nvm/versions/node/v22.22.2/bin:/usr/local/bin:$PATH\")",
+      "Bash(npm view:*)",
+      "Bash(export PATH=\"$HOME/.nvm/versions/node/v22.22.2/bin:/usr/local/bin:/bin:/usr/bin:$PATH\")",
+      "mcp__scheduled-tasks__create_scheduled_task",
+      "WebSearch",
+      "Bash(curl -s \"https://api.pexels.com/v1/search?query=heatwave+summer+korea&per_page=1&orientation=portrait\" -H \"Authorization: dYDPO5FaMRrDMOcgIXjLCPVwNto9V2rg5ALiLaU93tqJRIYmaNURW0To\")",
+      "Bash(python3 -m json.tool --no-ensure-ascii)",
+      "mcp__scheduled-tasks__list_scheduled_tasks",
+      "WebFetch(domain:developers-apps-in-toss.toss.im)",
+      "Bash(export PATH=\"$HOME/.nvm/versions/node/v22.22.2/bin:/usr/local/bin:/bin:/usr/bin:$PATH\" cd \"/Users/lingard/Projects/AppInToss/하루1분/today-1-minute\" npx ait --help)",
+      "Bash(npx ait:*)"
+    ]
+  }
+}
