@@ -5,10 +5,3 @@ declare module "*.css" {
   export default content;
 }
 
-interface ImportMetaEnv {
-  readonly VITE_AD_GROUP_ID?: string;
-}
-
-interface ImportMeta {
-  readonly env: ImportMetaEnv;
-}

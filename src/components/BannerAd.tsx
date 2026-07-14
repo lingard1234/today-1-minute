@@ -1,9 +1,8 @@
 import { TossAds } from "@apps-in-toss/web-framework";
 import { useEffect, useRef, useState } from "react";
 
-// 앱인토스 콘솔 > 수익화 > 인앱 광고에서 발급받은 광고 그룹 ID로 교체해주세요.
-// 값이 없으면 개발용 테스트 광고 ID로 동작해요.
-const AD_GROUP_ID = import.meta.env.VITE_AD_GROUP_ID || "ait-ad-test-banner-id";
+// 앱인토스 콘솔 > 수익화 > 인앱 광고에서 발급받은 배너 광고 그룹 ID예요. (고정값)
+const AD_GROUP_ID = "ait.v2.live.004bb5eac3cf4fcd";
 
 export function BannerAd() {
   const containerRef = useRef<HTMLDivElement>(null);
