@@ -9,6 +9,8 @@ on:
       - 'package.json'
       - 'granite.config.ts'
       - 'index.html'
+      - '.github/workflows/deploy.yml'
+  workflow_dispatch:
 
 jobs:
   deploy:
@@ -29,4 +31,7 @@ jobs:
         run: npm run build
 
       - name: 앱인토스 배포
-        run: npx ait deploy --api-key "${{ secrets.AIT_API_KEY }}" -m "자동 배포 — ${{ github.event.head_commit.message }}"
+        run: |
+          # ait 배포 메모는 120자 제한이 있어, 커밋 제목(첫 줄)만 100자로 잘라서 사용해요.
+          MEMO="자동 배포 — $(git log -1 --pretty=%s | cut -c1-100)"
+          npx ait deploy --api-key "${{ secrets.AIT_API_KEY }}" -m "$MEMO"
