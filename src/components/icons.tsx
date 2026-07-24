@@ -105,6 +105,22 @@ export function CloseIcon({ size = 24, color = "currentColor" }: IconProps) {
   );
 }
 
+export function ShareIcon({ size = 24, color = "currentColor" }: IconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+      <circle cx="6" cy="12" r="2.6" stroke={color} strokeWidth={2} />
+      <circle cx="17.5" cy="6" r="2.6" stroke={color} strokeWidth={2} />
+      <circle cx="17.5" cy="18" r="2.6" stroke={color} strokeWidth={2} />
+      <path
+        d="M8.3 10.8l6.9-3.6M8.3 13.2l6.9 3.6"
+        stroke={color}
+        strokeWidth={2}
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
 export function SunIcon({ size = 24, color = "currentColor" }: IconProps) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none">

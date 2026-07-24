@@ -1,10 +1,11 @@
 import { Text } from "@toss/tds-mobile";
 
 import { CardArt } from "../components/CardArt";
-import { BookmarkIcon, ChevronLeftIcon } from "../components/icons";
+import { BookmarkIcon, ChevronLeftIcon, ShareIcon } from "../components/icons";
 import { useTheme } from "../contexts/ThemeContext";
 import { CardNews } from "../types/card";
 import { formatFullDate } from "../utils/date";
+import { shareCard } from "../utils/share";
 
 interface DetailProps {
   card: CardNews;
@@ -48,25 +49,43 @@ export function Detail({ card, onBack, saved, onToggleSave }: DetailProps) {
           <ChevronLeftIcon size={22} color={theme.textPrimary} />
         </button>
 
-        <button
-          onClick={onToggleSave}
-          aria-label={saved ? "저장 취소" : "저장"}
-          style={{
-            width: 40,
-            height: 40,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            background: "none",
-            border: "none",
-          }}
-        >
-          <BookmarkIcon
-            size={22}
-            color={saved ? theme.accent : theme.textPrimary}
-            filled={saved}
-          />
-        </button>
+        <div style={{ display: "flex", alignItems: "center" }}>
+          <button
+            onClick={() => void shareCard(card)}
+            aria-label="공유"
+            style={{
+              width: 40,
+              height: 40,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              background: "none",
+              border: "none",
+            }}
+          >
+            <ShareIcon size={21} color={theme.textPrimary} />
+          </button>
+
+          <button
+            onClick={onToggleSave}
+            aria-label={saved ? "저장 취소" : "저장"}
+            style={{
+              width: 40,
+              height: 40,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              background: "none",
+              border: "none",
+            }}
+          >
+            <BookmarkIcon
+              size={22}
+              color={saved ? theme.accent : theme.textPrimary}
+              filled={saved}
+            />
+          </button>
+        </div>
       </header>
 
       <div style={{ padding: "20px 20px 60px" }}>
