@@ -1,0 +1,104 @@
+name: 하루1분 카드 자동 생성 (멤버십)
+
+# 매일 07:01 KST(=22:01 UTC 전날)에 Claude Code가 오늘의 실제 뉴스로 카드를 만들고,
+# 워크플로가 커밋→빌드→앱인토스 배포까지 처리해요.
+# 인증은 API 키가 아니라 Claude Pro/Max "구독 토큰"(CLAUDE_CODE_OAUTH_TOKEN)을 써서
+# 종량제 API 과금이 발생하지 않아요. (멤버십 사용량에서만 차감)
+
+on:
+  schedule:
+    - cron: "1 22 * * *"   # 07:01 KST
+  workflow_dispatch:        # 콘솔/CLI에서 수동 실행(테스트)
+
+permissions:
+  contents: write
+
+concurrency:
+  group: daily-cards
+  cancel-in-progress: false
+
+jobs:
+  generate-and-deploy:
+    runs-on: ubuntu-latest
+    env:
+      TZ: Asia/Seoul   # date 명령이 KST를 반환하도록
+    steps:
+      - name: 체크아웃
+        uses: actions/checkout@v4
+
+      - name: 카드 생성 (Claude Code, 구독 토큰)
+        uses: anthropics/claude-code-action@v1
+        env:
+          PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          claude_args: |
+            --allowedTools "Bash,Read,Write,Edit,WebSearch,WebFetch"
+            --max-turns 120
+          prompt: |
+            너는 "하루1분" 카드 뉴스 미니앱의 오늘자 카드를 만드는 자동화야.
+            사람 검수 없이 끝까지 자동으로 완료해야 해. **파일 편집까지만 하고, git 커밋·push·배포는 절대 하지 마.** (그건 이후 워크플로 단계가 처리해.)
+
+            ## 0. 오늘 날짜
+            먼저 `date '+%Y-%m-%d'`로 오늘 날짜(KST 기준)를 확인해. 이 날짜를 아래에서 계속 사용해.
+
+            ## 1. 오늘의 실제 뉴스 찾기
+            WebSearch로 오늘 날짜 기준 한국의 실제 뉴스를 찾아. 아래 카테고리 중 오늘 실제로 보도된 뉴스가 있는 3~4개를 골라 (날씨, 경제, IT, 사회, 문화, 스포츠). 매일 조합이 겹치지 않게 다양하게. 반드시 오늘 실제 보도된 사실에 근거하고, 추측·가상 내용은 금지. 코스피 종가/날씨/주요 이슈 등 확정 사실 위주로.
+
+            ## 2. 카드 작성 (하루1분 톤)
+            각 뉴스마다:
+            - title: 이미지 위 굵은 헤드라인. 최대 2줄, 줄바꿈은 \n. 15자 내외, 숫자·핵심 키워드 앞세우고 과장·낚시성 금지.
+            - summary: 상세 본문. 3~4개 문단, 각 3~5문장, 문단 구분은 \n\n. 존댓말(해요체)로 담백하게, 원문 사실 근거로만. 배경→핵심사실→의미·영향→독자관점 순.
+            - category: 위에서 고른 카테고리.
+            - source: 실제 참고한 언론사/기관명.
+            정치·사건 카드는 중립적·사실 위주로 작성해(특정 입장 옹호 금지). 기존 카드 톤은 src/data/cards.json 상단 항목들을 참고해.
+
+            ## 3. 관련 실사 사진 (Pexels)
+            환경변수 PEXELS_API_KEY 를 사용해. 각 카드의 구체적 주제에 맞는 영어 키워드 2~3개로 https://api.pexels.com/v1/search 에 Authorization 헤더로 키를 넣어 GET (query, per_page=1, orientation=portrait). 응답 photos[0].src.large 를 imageUrl로 사용. 실패/결과없으면 imageUrl은 빈 문자열.
+            (키가 비어있으면 이 단계는 건너뛰고 imageUrl 빈 문자열로 둬 — 앱이 카테고리 아트로 대체해.)
+
+            ## 4. 발행 (파일 편집만)
+            src/data/cards.json 을 읽어서:
+            - 오늘 날짜(YYYY-MM-DD)로 id를 "{YYYYMMDD}-01","{YYYYMMDD}-02"... 순번(이미 오늘 카드 있으면 그 다음 번호부터).
+            - 각 카드: { id, date, category, title, summary, imageUrl, source } (imageUrl 빈 문자열이면 필드 자체 생략).
+            - 기존 배열에 추가하고 date 기준 내림차순 정렬 후 JSON.stringify(cards, null, 2) + "\n" 형식으로 다시 저장.
+            - id 중복 없는지 반드시 확인. JSON 파싱 오류 없게 검증.
+
+            ## 5. 마무리
+            src/data/cards.json 저장까지만 하고 끝내. 커밋/배포는 하지 마. 몇 개를 어떤 카테고리로 만들었는지 한 줄로 보고해.
+
+      - name: 변경분 커밋 & push
+        id: commit
+        run: |
+          if git diff --quiet -- src/data/cards.json; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "cards.json 변경 없음 — 스킵"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add src/data/cards.json
+          git commit -m "카드 뉴스 자동 업데이트 — $(date '+%Y-%m-%d')"
+          git push origin HEAD:main
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+
+      - name: Node 설정
+        if: steps.commit.outputs.changed == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: 의존성 설치
+        if: steps.commit.outputs.changed == 'true'
+        run: npm ci
+
+      - name: 앱 빌드
+        if: steps.commit.outputs.changed == 'true'
+        run: npm run build
+
+      - name: 앱인토스 배포
+        if: steps.commit.outputs.changed == 'true'
+        run: |
+          MEMO="자동 배포 — $(git log -1 --pretty=%s | cut -c1-100)"
+          npx ait deploy --api-key "${{ secrets.AIT_API_KEY }}" -m "$MEMO"
