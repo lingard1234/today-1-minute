@@ -37,6 +37,7 @@ jobs:
           claude_args: |
             --allowedTools "Bash,Read,Write,Edit,WebSearch,WebFetch"
             --max-turns 120
+            --debug
           prompt: |
             너는 "하루1분" 카드 뉴스 미니앱의 오늘자 카드를 만드는 자동화야.
             사람 검수 없이 끝까지 자동으로 완료해야 해. **파일 편집까지만 하고, git 커밋·push·배포는 절대 하지 마.** (그건 이후 워크플로 단계가 처리해.)
