@@ -9,6 +9,8 @@ export interface AppTheme {
   textTertiary: string;
   accent: string;
   accentSoft: string;
+  /** 플로팅 요소(하단 탭바 등)를 배경에서 띄워 보이게 하는 그림자예요. */
+  floatingShadow: string;
 }
 
 export const lightTheme: AppTheme = {
@@ -21,6 +23,7 @@ export const lightTheme: AppTheme = {
   textTertiary: "#9AA0AC",
   accent: "#FD9B3C",
   accentSoft: "rgba(253, 155, 60, 0.12)",
+  floatingShadow: "0 6px 20px rgba(16, 17, 20, 0.14)",
 };
 
 export const darkTheme: AppTheme = {
@@ -33,4 +36,5 @@ export const darkTheme: AppTheme = {
   textTertiary: "#6B7280",
   accent: "#FD9B3C",
   accentSoft: "rgba(253, 155, 60, 0.16)",
+  floatingShadow: "0 6px 20px rgba(0, 0, 0, 0.5)",
 };

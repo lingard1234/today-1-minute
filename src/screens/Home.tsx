@@ -3,6 +3,7 @@ import { useMemo, useState } from "react";
 
 import { AppHeader } from "../components/AppHeader";
 import { BannerAd } from "../components/BannerAd";
+import { TAB_BAR_CLEARANCE } from "../components/BottomTabBar";
 import { CardCarousel } from "../components/CardCarousel";
 import { DateSelector } from "../components/DateSelector";
 import { useTheme } from "../contexts/ThemeContext";
@@ -73,7 +74,7 @@ export function Home({ savedIds, onToggleSave, onSelectCard }: HomeProps) {
         )}
       </div>
 
-      <div style={{ padding: "8px 20px 84px" }}>
+      <div style={{ padding: "8px 20px 0", paddingBottom: TAB_BAR_CLEARANCE }}>
         <BannerAd />
       </div>
     </div>

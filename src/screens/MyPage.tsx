@@ -1,5 +1,6 @@
 import { Text } from "@toss/tds-mobile";
 
+import { TAB_BAR_CLEARANCE } from "../components/BottomTabBar";
 import { CardArt } from "../components/CardArt";
 import { BookmarkIcon } from "../components/icons";
 import { useTheme } from "../contexts/ThemeContext";
@@ -44,7 +45,7 @@ export function MyPage({ savedIds, onToggleSave, onSelectCard }: MyPageProps) {
             position: "absolute",
             inset: 0,
             top: 52,
-            bottom: 64,
+            bottom: TAB_BAR_CLEARANCE,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
@@ -56,7 +57,7 @@ export function MyPage({ savedIds, onToggleSave, onSelectCard }: MyPageProps) {
           <Text typography="t5" fontWeight="bold" color={theme.textSecondary}>
             아직 저장한 카드가 없어요
           </Text>
-          <Text typography="st9" color={theme.textTertiary} style={{ textAlign: "center", padding: "0 32px" }}>
+          <Text typography="st9" color={theme.textTertiary} style={{ textAlign: "center", padding: "0 40px" }}>
             관심 있는 카드를 저장하고 나중에 다시 확인해보세요.
           </Text>
         </div>
@@ -65,7 +66,8 @@ export function MyPage({ savedIds, onToggleSave, onSelectCard }: MyPageProps) {
           style={{
             display: "flex",
             flexDirection: "column",
-            padding: "8px 20px 84px",
+            padding: "8px 20px 0",
+            paddingBottom: TAB_BAR_CLEARANCE,
           }}
         >
           {savedCards.map((card) => (
