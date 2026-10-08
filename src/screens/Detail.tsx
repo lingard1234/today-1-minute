@@ -1,8 +1,9 @@
 import { Text } from "@toss/tds-mobile";
 
 import { CardArt } from "../components/CardArt";
-import { BookmarkIcon, ChevronLeftIcon, ShareIcon } from "../components/icons";
+import { BookmarkIcon, ShareIcon } from "../components/icons";
 import { useTheme } from "../contexts/ThemeContext";
+import { useBackEvent } from "../hooks/useBackEvent";
 import { CardNews } from "../types/card";
 import { formatFullDate } from "../utils/date";
 import { shareCard } from "../utils/share";
@@ -17,6 +18,9 @@ interface DetailProps {
 export function Detail({ card, onBack, saved, onToggleSave }: DetailProps) {
   const { theme } = useTheme();
 
+  // 내비게이션 바 뒤로가기를 가로채 목록으로 돌아가요. (없으면 미니앱이 닫혀요)
+  useBackEvent(onBack);
+
   return (
     <div style={{ minHeight: "100vh", backgroundColor: theme.bg }}>
       <header
@@ -26,29 +30,13 @@ export function Detail({ card, onBack, saved, onToggleSave }: DetailProps) {
           zIndex: 10,
           display: "flex",
           alignItems: "center",
-          justifyContent: "space-between",
+          justifyContent: "flex-end",
           height: 52,
           padding: "0 8px",
           backgroundColor: theme.surface,
           borderBottom: `1px solid ${theme.border}`,
         }}
       >
-        <button
-          onClick={onBack}
-          aria-label="뒤로 가기"
-          style={{
-            width: 40,
-            height: 40,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            background: "none",
-            border: "none",
-          }}
-        >
-          <ChevronLeftIcon size={22} color={theme.textPrimary} />
-        </button>
-
         <div style={{ display: "flex", alignItems: "center" }}>
           <button
             onClick={() => void shareCard(card)}

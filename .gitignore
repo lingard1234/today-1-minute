@@ -5,3 +5,6 @@ dist
 .env
 content/drafts
 .claude/
+
+# ait build 산출물
+*.ait

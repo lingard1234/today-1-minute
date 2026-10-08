@@ -2,7 +2,7 @@ import { getTossShareLink, share } from "@apps-in-toss/web-framework";
 
 import { CardNews } from "../types/card";
 
-// granite.config.ts의 appName과 동일해야 딥링크가 앱으로 열려요.
+// apps-in-toss.config.ts의 appName과 동일해야 딥링크가 앱으로 열려요.
 const APP_DEEP_LINK = "intoss://today-1-minute";
 
 /**
