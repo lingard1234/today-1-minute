@@ -1,6 +1,10 @@
-import config from "../../granite.config.ts";
 import { useTheme } from "../contexts/ThemeContext";
 import { MoonIcon, SunIcon } from "./icons";
+
+// 앱인토스 콘솔에 등록된 미니앱 아이콘이에요. (고정값)
+// SDK 3.x부터 설정 파일의 brand에서 icon이 빠져서 여기에 직접 둬요.
+const APP_ICON_URL =
+  "https://static.toss.im/appsintoss/47057/73a4786d-bc38-43ea-bf16-fc934a509d5c.png";
 
 export function AppHeader() {
   const { theme, mode, toggleMode } = useTheme();
@@ -21,7 +25,7 @@ export function AppHeader() {
       }}
     >
       <img
-        src={config.brand.icon}
+        src={APP_ICON_URL}
         alt="하루1분"
         style={{
           width: 28,
